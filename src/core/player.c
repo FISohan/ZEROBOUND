@@ -8,16 +8,7 @@
 void player_init(Player *player)
 {
     player->position = (Vector2){30.0, 20.0};
-}
-
-static int is_on_screen(Player *player)
-{
-    Vector2 pos = player->position;
-
-    return !(pos.x - PLAYER_RADIUS <= 0 ||
-             pos.x + PLAYER_RADIUS >= GetScreenWidth() ||
-             pos.y - PLAYER_RADIUS <= 0 ||
-             pos.y + PLAYER_RADIUS >= GetScreenHeight());
+    player->aim_position = (Vector2){20.0,50.0};
 }
 
 static void player_movement(Player *player)
@@ -34,7 +25,8 @@ static void player_movement(Player *player)
     if (IsKeyDown(KEY_D))
         direction.x += 1.0;
 
-    if(Vector2Length(direction) > 0.0){
+    if (Vector2Length(direction) > 0.0)
+    {
         direction = Vector2Normalize(direction);
     }
 
@@ -45,12 +37,24 @@ static void player_movement(Player *player)
     player->position.y = Clamp(player->position.y, PLAYER_RADIUS, GetScreenHeight() - PLAYER_RADIUS);
 }
 
+static void update_aim(Player *player){
+    Vector2 mouse_position = GetMousePosition();
+    TraceLog(LOG_INFO,"[%lf %lf]",mouse_position.x,mouse_position.y);
+    player->aim_position = mouse_position;
+}
 
-void update_player(Player *player){
+static void render_aim(Player *player){
+    DrawCircle(player->aim_position.x,player->aim_position.y,5.0,RED);
+}
+
+void update_player(Player *player)
+{
     player_movement(player);
+    update_aim(player);
 }
 
 void rendar_player(Player *player)
 {
     DrawCircle(player->position.x, player->position.y, PLAYER_RADIUS, WHITE);
+    render_aim(player);
 };

@@ -6,6 +6,8 @@
 typedef struct
 {
     Vector2 position;
+    Vector2 aim_position;
+
 } Player;
 
 void player_init(Player *player);
