@@ -13,5 +13,5 @@ void update_game(Game *game){
 }
 
 void render_game(Game *game){
-    rendar_player(&game->player);
+    render_player(&game->player);
 }

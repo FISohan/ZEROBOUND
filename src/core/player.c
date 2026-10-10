@@ -1,14 +1,17 @@
 #include "player.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "gun.h"
 
-#define PLAYER_SPEED 400.0
-#define PLAYER_RADIUS 10.0
+#define PLAYER_SPEED 500.0
+#define PLAYER_RADIUS 20.0
 
 void player_init(Player *player)
 {
     player->position = (Vector2){30.0, 20.0};
-    player->aim_position = (Vector2){20.0,50.0};
+    player->aim_position = (Vector2){20.0, 50.0};
+    Gun gun1 = {.type = PLUS_ONE};
+    player->guns[0] = gun1;
 }
 
 static void player_movement(Player *player)
@@ -37,23 +40,38 @@ static void player_movement(Player *player)
     player->position.y = Clamp(player->position.y, PLAYER_RADIUS, GetScreenHeight() - PLAYER_RADIUS);
 }
 
-static void update_aim(Player *player){
+static void update_aim(Player *player)
+{
     Vector2 mouse_position = GetMousePosition();
-    TraceLog(LOG_INFO,"[%lf %lf]",mouse_position.x,mouse_position.y);
     player->aim_position = mouse_position;
 }
 
-static void render_aim(Player *player){
-    DrawCircle(player->aim_position.x,player->aim_position.y,5.0,RED);
+static void render_aim(Player *player)
+{
+    DrawCircle(player->aim_position.x, player->aim_position.y, 5.0, RED);
+}
+
+static void weapon_trigger(Player *player)
+{
+    if (IsKeyDown(KEY_SPACE))
+    {
+        fire_gun(player);
+    }
+}
+
+void fire_gun(Player *player)
+{
+    player->active_gun = player->guns[0];
 }
 
 void update_player(Player *player)
 {
     player_movement(player);
     update_aim(player);
+    fire_gun(player);
 }
 
-void rendar_player(Player *player)
+void render_player(Player *player)
 {
     DrawCircle(player->position.x, player->position.y, PLAYER_RADIUS, WHITE);
     render_aim(player);

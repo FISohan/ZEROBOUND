@@ -6,6 +6,7 @@
 typedef struct 
 {
     Player player;
+    //projectile array
 } Game;
 
 void init_game(Game *game);

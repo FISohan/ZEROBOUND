@@ -10,6 +10,8 @@ int main()
 	Game game;
 	init_game(&game);
 	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
+	SetConfigFlags(FLAG_MSAA_4X_HINT);
+
 	// SetConfigFlags(FLAG_FULLSCREEN_MODE);
 	InitWindow(800, 600, "Hello Fahim");
 	// game loop
