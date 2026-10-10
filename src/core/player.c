@@ -10,7 +10,10 @@ void player_init(Player *player)
 {
     player->position = (Vector2){30.0, 20.0};
     player->aim_position = (Vector2){20.0, 50.0};
-    Gun gun1 = {.type = PLUS_ONE};
+    player->event = NONE;
+    Projectile b;
+
+    Gun gun1 = {.type = PLUS_ONE, .bullet = b};
     player->guns[0] = gun1;
 }
 
@@ -57,18 +60,33 @@ static void weapon_trigger(Player *player)
     {
         fire_gun(player);
     }
+    if (IsKeyUp(KEY_SPACE))
+    {
+        player->event = NONE;
+    }
+}
+
+void update_event(Player *player, PlayerEvent event)
+{
+    player->event = event;
 }
 
 void fire_gun(Player *player)
 {
+    // Later active_gun will set by player
     player->active_gun = player->guns[0];
+
+    init_projectile(&player->active_gun.bullet, player->position);
+    Vector2 velocityDirecton = Vector2Subtract(player->aim_position, player->position);
+    player->active_gun.bullet.velocity = velocityDirecton;
+    player->event = PROJECTILE_FIRED;
 }
 
 void update_player(Player *player)
 {
     player_movement(player);
     update_aim(player);
-    fire_gun(player);
+    weapon_trigger(player);
 }
 
 void render_player(Player *player)
