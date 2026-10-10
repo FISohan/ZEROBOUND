@@ -3,10 +3,12 @@
 #define PROJECTILE_SPEED 600.0
 
 #include "raylib.h"
+#include <stdbool.h>
 
 typedef struct{
     Vector2 position;
     Vector2 velocity;
+    bool active;
 } Projectile;
 
 void init_projectile(Projectile *projectile, Vector2 initPos);

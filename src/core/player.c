@@ -79,6 +79,7 @@ void fire_gun(Player *player)
     init_projectile(&player->active_gun.bullet, player->position);
     Vector2 velocityDirecton = Vector2Subtract(player->aim_position, player->position);
     player->active_gun.bullet.velocity = velocityDirecton;
+    player->active_gun.bullet.active = true;
     player->event = PROJECTILE_FIRED;
 }
 

@@ -3,8 +3,18 @@
 #include "player.h"
 #include "raymath.h"
 
+void create_projectile_pool(Game *game)
+{
+    for (int i = 0; i < POOl_SIZE - 2; i++)
+    {
+        Projectile p = {.active = false};
+        game->projectiles[i] = p;
+    }
+}
+
 void init_game(Game *game)
 {
+    create_projectile_pool(game);
     Player player;
     player_init(&player);
     game->player = player;
@@ -13,7 +23,14 @@ void init_game(Game *game)
 
 void add_projectile(Game *game)
 {
-    game->projectiles[game->projectile_count++] = game->player.active_gun.bullet;
+    for (int i = 0; i < POOl_SIZE - 2; i++)
+    {
+        if (!game->projectiles[i].active)
+        {
+            game->projectiles[i] = game->player.active_gun.bullet;
+            break;
+        }
+    }
 }
 
 static void check_player_event(Game *game)
@@ -28,13 +45,17 @@ static void check_player_event(Game *game)
         TraceLog(LOG_INFO, "NONEE");
     }
 }
+
 static void update_projectile(Game *game)
 {
 
-    for (int i = 0; i < game->projectile_count; i++)
+    for (int i = 0; i < POOl_SIZE - 2; i++)
     {
-        shoot_projectile(&game->projectiles[i]);
-        render_projectile(&game->projectiles[i]);
+        if (game->projectiles[i].active)
+        {
+            shoot_projectile(&game->projectiles[i]);
+            render_projectile(&game->projectiles[i]);
+        }
     }
 }
 
