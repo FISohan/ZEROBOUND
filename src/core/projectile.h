@@ -1,7 +1,7 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 #define PROJECTILE_SPEED 600.0
-
+#define PROJECTILE_REDIUS 5.0
 #include "raylib.h"
 #include <stdbool.h>
 

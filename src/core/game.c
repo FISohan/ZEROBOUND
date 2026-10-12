@@ -18,8 +18,27 @@ void init_game(Game *game)
     Player player;
     player_init(&player);
     game->player = player;
-    game->projectile_count = 0;
 }
+
+static void check_and_free_projectile(Projectile *projectile)
+{
+    int w = GetScreenWidth();
+    int h = GetScreenHeight();
+
+    if (projectile->active)
+    {
+        if (projectile->position.x + PROJECTILE_REDIUS < 0)
+            projectile->active = 0;
+        if (projectile->position.x - PROJECTILE_REDIUS >= w)
+            projectile->active = 0;
+        if (projectile->position.y + PROJECTILE_REDIUS < 0)
+            projectile->active = 0;
+        if (projectile->position.y - PROJECTILE_REDIUS > h)
+            projectile->active = 0;
+    }
+}
+
+
 
 void add_projectile(Game *game)
 {
@@ -56,6 +75,7 @@ static void update_projectile(Game *game)
             shoot_projectile(&game->projectiles[i]);
             render_projectile(&game->projectiles[i]);
         }
+        check_and_free_projectile(&game->projectiles[i]);
     }
 }
 

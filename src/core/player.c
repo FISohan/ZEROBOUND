@@ -56,11 +56,11 @@ static void render_aim(Player *player)
 
 static void weapon_trigger(Player *player)
 {
-    if (IsKeyDown(KEY_SPACE))
+    if (IsKeyDown(KEY_SPACE) || IsMouseButtonDown(MOUSE_BUTTON_LEFT))
     {
-        fire_gun(player);
+        fire_gun(player);   
     }
-    if (IsKeyUp(KEY_SPACE))
+    if (IsKeyUp(KEY_SPACE) && !IsMouseButtonDown(MOUSE_BUTTON_LEFT))
     {
         player->event = NONE;
     }

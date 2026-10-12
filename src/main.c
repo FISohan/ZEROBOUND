@@ -17,6 +17,9 @@ int main()
 	// game loop
 	while (!WindowShouldClose())
 	{
+		if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
+			TraceLog(LOG_INFO,"1111111");
+		}
 		/// Updating
 		update_game(&game);
 		//////////////
