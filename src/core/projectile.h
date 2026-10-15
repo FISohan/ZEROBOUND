@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 typedef struct{
+    
     Vector2 position;
     Vector2 velocity;
     bool active;

@@ -15,7 +15,4 @@ void shoot_projectile(Projectile *projectile){
 
 void render_projectile(Projectile *projectile){
     DrawCircle(projectile->position.x,projectile->position.y,PROJECTILE_REDIUS,GREEN);
-    // DrawLineEx(projectile->position,
-    //     Vector2Multiply(projectile->velocity,(Vector2){200.0,200.0}),
-    //    2.0f, BROWN);
 };

@@ -18,6 +18,7 @@ void init_game(Game *game)
     Player player;
     player_init(&player);
     game->player = player;
+    spwan_enemy(game);
 }
 
 static void check_and_free_projectile(Projectile *projectile)
@@ -38,7 +39,13 @@ static void check_and_free_projectile(Projectile *projectile)
     }
 }
 
-
+static void render_enemies(Game *game)
+{
+    for (int i = 0; i < game->enemy_count; i++)
+    {
+        drawEnemy(&game->enemies[i]);
+    }
+}
 
 void add_projectile(Game *game)
 {
@@ -61,7 +68,7 @@ static void check_player_event(Game *game)
     }
     if (game->player.event == NONE)
     {
-        TraceLog(LOG_INFO, "NONEE");
+        // TraceLog(LOG_INFO, "NONEE");
     }
 }
 
@@ -79,14 +86,51 @@ static void update_projectile(Game *game)
     }
 }
 
+void chase_player(Game *game)
+{
+    for (int i = 0; i < game->enemy_count; i++)
+    {
+        chasing_player(&game->enemies[i], game->player.position);
+    }
+}
+
+void spwan_enemy(Game *game)
+{
+    int w = GetScreenWidth();
+    int h = GetScreenHeight();
+    game->enemy_count = 10;
+
+    for (int i = 0; i < game->enemy_count; i++)
+    {
+
+        Number _number = {
+            .real = 4.0,
+            .imaginary = 0.0,
+        };
+
+        Enemy enemy = {
+            .position = (Vector2){
+                (float)GetRandomValue(0, w),
+                (float)GetRandomValue(0, h)},
+            .number = _number,
+            .chasing_speed = GetRandomValue(50.0, 200.0)
+
+        };
+
+        game->enemies[i] = enemy;
+    }
+}
+
 void update_game(Game *game)
 {
     update_player(&game->player);
     check_player_event(game);
     update_projectile(game);
+    chase_player(game);
 }
 
 void render_game(Game *game)
 {
     render_player(&game->player);
+    render_enemies(game);
 }

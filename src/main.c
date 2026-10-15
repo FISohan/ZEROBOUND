@@ -8,18 +8,17 @@
 int main()
 {
 	Game game;
-	init_game(&game);
+
 	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
 	SetConfigFlags(FLAG_MSAA_4X_HINT);
 
 	// SetConfigFlags(FLAG_FULLSCREEN_MODE);
 	InitWindow(800, 600, "Hello Fahim");
+	init_game(&game);
 	// game loop
 	while (!WindowShouldClose())
 	{
-		if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
-			TraceLog(LOG_INFO,"1111111");
-		}
+
 		/// Updating
 		update_game(&game);
 		//////////////
