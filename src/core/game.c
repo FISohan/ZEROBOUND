@@ -90,7 +90,7 @@ void chase_player(Game *game)
 {
     for (int i = 0; i < game->enemy_count; i++)
     {
-        chasing_player(&game->enemies[i], game->player.position);
+        chasing_player(&game->enemies[i], game->player.position, game->enemies,game->enemy_count);
     }
 }
 
@@ -98,7 +98,7 @@ void spwan_enemy(Game *game)
 {
     int w = GetScreenWidth();
     int h = GetScreenHeight();
-    game->enemy_count = 10;
+    game->enemy_count = 30;
 
     for (int i = 0; i < game->enemy_count; i++)
     {
